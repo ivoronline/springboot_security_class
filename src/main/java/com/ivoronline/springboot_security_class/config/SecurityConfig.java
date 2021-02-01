@@ -13,21 +13,21 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Override
   @Bean
+  @Override
   protected UserDetailsService userDetailsService() {
 
     UserDetails admin = User.withDefaultPasswordEncoder()
-        .username("myadmin")
-        .password("myadminpassword")
-        .roles("ADMIN")
-        .build();
+      .username("myadmin")
+      .password("myadminpassword")
+      .roles   ("ADMIN")
+      .build();
 
     UserDetails user = User.withDefaultPasswordEncoder()
-        .username("myuser")
-        .password("myuserpassword")
-        .roles("USER")
-        .build();
+      .username("myuser")
+      .password("myuserpassword")
+      .roles   ("USER")
+      .build();
 
     return new InMemoryUserDetailsManager(admin, user);
 
