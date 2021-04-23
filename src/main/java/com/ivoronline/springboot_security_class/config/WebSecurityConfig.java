@@ -7,36 +7,36 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  //=================================================================
+  // USER DETAILS SERVICE
+  //=================================================================
   @Bean
   @Override
   protected UserDetailsService userDetailsService() {
 
-    //CREATE ADMIN
-    UserDetails admin = User.withDefaultPasswordEncoder()
-      .username("myadmin")
-      .password("myadminpassword")
-      .roles   ("ADMIN")
-      .build();
+    //CREATE USERS
+    UserDetails myuser  = User.withUsername("myuser" ).password("myuserpassword" ).roles("USER" ).build();
+    UserDetails myadmin = User.withUsername("myadmin").password("myadminpassword").roles("ADMIN").build();
 
-    //CREATE USER
-    UserDetails user = User.withDefaultPasswordEncoder()
-      .username("myuser")
-      .password("myuserpassword")
-      .roles   ("USER")
-      .build();
+    //STORE USERS
+    return new InMemoryUserDetailsManager(myuser, myadmin);
 
-    //ADD USERS
-    InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager(admin, user);
+  }
 
-    //RETURN USERS
-    return inMemoryUserDetailsManager;
-
+  //=======================================================================
+  // PASSWORD ENCODER
+  //=======================================================================
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return NoOpPasswordEncoder.getInstance();
   }
 
 }
