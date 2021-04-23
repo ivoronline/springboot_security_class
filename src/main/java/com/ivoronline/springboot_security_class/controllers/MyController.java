@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MyController {
 
+  //=================================================================
+  // HELLO
+  //=================================================================
   @Secured("ROLE_ADMIN")
   @RequestMapping("/Hello")
   public String hello() {
